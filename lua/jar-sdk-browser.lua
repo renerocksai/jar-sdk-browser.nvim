@@ -67,6 +67,7 @@ M.add_jar = function(jar, opts)
 	opts = opts or {}
 	local jobs = {}
 
+	jar = vim.fn.expand(jar)
 	local outfiln = M.sdk_folder .. "/" .. vim.fn.fnamemodify(jar, ":t") .. ".java"
 	local outfile = io.open(outfiln, "a")
 	outfile:write("\n")
@@ -77,6 +78,7 @@ M.add_jar = function(jar, opts)
 	end
 
 	local classes = M._list_classes(jar)
+	-- print("Loaded " .. #classes .. " classes")
 	if classes ~= nil then
 		for i, classname in ipairs(classes) do
 			local finalizer = nil
@@ -85,6 +87,8 @@ M.add_jar = function(jar, opts)
 			end
 			jobs[i] = M._process_class_job(jar, classname, outfile, " (" .. i .. " / " .. #classes .. ")", finalizer)
 		end
+	else
+		error("Error reading " .. jar)
 	end
 
 	-- now iterate over all jobs and chain them together
@@ -100,8 +104,10 @@ M.add_jar = function(jar, opts)
 end
 
 M.browse = function(opts)
+	opts = opts or {}
 	local arg = opts.arg or ""
-	print(vim.inspect(opts))
+	arg = arg:gsub('"', "")
+	arg = arg:gsub("'", "")
 	builtin.live_grep({
 		cwd = M.sdk_folder,
 		prompt_title = "Browse SDKs ...",
