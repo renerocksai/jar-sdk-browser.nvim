@@ -11,6 +11,8 @@ Browse JAR (Java/Kotlin) SDKs from NeoVim via [Telescope.nvim](https://github.co
 
 This plugin serves a very specific purpose: explore and search Java / Jotlin SDKs that you only have in compiled `.jar` form.
 
+![](./img/searchdemo.png)
+
 ## Installation
 
 ### Pre-requisites
