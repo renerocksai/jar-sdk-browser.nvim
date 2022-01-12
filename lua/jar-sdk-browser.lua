@@ -1,5 +1,7 @@
 local Job = require("plenary.job")
 local debug_utils = require("plenary.debug_utils")
+local builtin = require("telescope.builtin")
+local sorters = require("telescope.sorters")
 
 local M = {}
 
@@ -95,6 +97,15 @@ M.add_jar = function(jar, opts)
 	if #jobs > 0 then
 		jobs[1]:start()
 	end
+end
+
+M.browse_sdks = function(opts)
+	builtin.live_grep({
+		cwd = M.sdk_folder,
+		prompt_title = "Browse SDKs ...",
+		default_text = "class.*\\.",
+		sorter = sorters.get_generic_fuzzy_sorter(opts),
+	})
 end
 
 M.setup = function(opts)
