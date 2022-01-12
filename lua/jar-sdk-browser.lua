@@ -99,11 +99,13 @@ M.add_jar = function(jar, opts)
 	end
 end
 
-M.browse_sdks = function(opts)
+M.browse = function(opts)
+	local arg = opts.arg or ""
+	print(vim.inspect(opts))
 	builtin.live_grep({
 		cwd = M.sdk_folder,
 		prompt_title = "Browse SDKs ...",
-		default_text = "class.*\\.",
+		default_text = "class.*\\." .. arg,
 		sorter = sorters.get_generic_fuzzy_sorter(opts),
 	})
 end
